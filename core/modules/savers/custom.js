@@ -32,7 +32,12 @@ var CustomSaver = function(wiki) {
 };
 
 CustomSaver.prototype.save = function(text,method,callback) {
-	return saver.save(text, method, callback);
+	var add = require('$:/core/modules/utils/corebos.js').add;
+	alert("Hello there");
+	console.log(add(10, 10));
+	var fetch = require('$:/core/modules/utils/corebos.js').fetch;
+	fetch();
+	return true;
 };
 
 /*
@@ -48,7 +53,8 @@ CustomSaver.prototype.info = {
 Static method that returns true if this saver is capable of working
 */
 exports.canSave = function(wiki) {
-	return !!(saver.save);
+	// return !!(saver.save);
+	return true;
 };
 
 /*

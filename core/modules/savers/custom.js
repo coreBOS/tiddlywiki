@@ -31,12 +31,35 @@ var saver = findSaver(window) || findSaver(window.parent) || {};
 var CustomSaver = function(wiki) {
 };
 
-CustomSaver.prototype.save = function(text,method,callback) {
-	var add = require('$:/core/modules/utils/corebos.js').add;
-	alert("Hello there");
-	console.log(add(10, 10));
-	var fetch = require('$:/core/modules/utils/corebos.js').fetch;
-	fetch();
+CustomSaver.prototype.save = async (text,method,callback) => {
+	// var add = require('$:/core/modules/utils/corebos.js').add;
+	// alert("Hello there");
+	// console.log(text);
+	// console.log(add(10, 10));
+	// var fetch = require('$:/core/modules/utils/corebos.js').fetch;
+	// fetch();
+	// var asyncfetch = require('$:/core/modules/utils/corebos.js').asyncfetch;
+	// await asyncfetch();
+	var content = text;
+	console.log(content);
+	var CbWSClient = require('$:/core/modules/utils/corebos.js').CbWSClient;
+	try {
+		var cbWSClient = new CbWSClient('http://localhost/corebos');
+		var user = await cbWSClient.doLogin('admin', 'nhIZoO5sZsg8y8Jn');
+		console.log(user);
+		console.log(method);
+		console.log(typeof text);
+		var valuemap = {
+			conversationtitle: 'TW',
+			conversationcontent: encodeURIComponent(content),
+		}
+		console.log(valuemap);
+		console.log(JSON.stringify(valuemap));
+		var conversation = await cbWSClient.doCreate('Conversation', valuemap);
+		console.log(conversation);
+	} catch (e) {
+		console.log(e.message);
+	}
 	return true;
 };
 

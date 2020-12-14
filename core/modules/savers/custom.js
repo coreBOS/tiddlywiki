@@ -40,21 +40,42 @@ CustomSaver.prototype.save = async (text,method,callback) => {
 	// fetch();
 	// var asyncfetch = require('$:/core/modules/utils/corebos.js').asyncfetch;
 	// await asyncfetch();
-	var content = text;
+	// var sub = text;
+	// console.log(String(sub));
+	// var content = text.replace("&quot;", '"');
+	// var element = document.createElement('a');
+    // element.setAttribute('href', 'data:text/html;charset=utf-8,' + text);
+    // element.setAttribute('download', 'tiddlywikidownload');
+
+    // element.style.display = 'none';
+    // document.body.appendChild(element);
+
+    // element.click();
+
+	// document.body.removeChild(element);
+	// const content = text;
+	console.log($tw);
+	const content = $tw.utils.base64Encode(text);
+	// const content = $tw.utils.htmlEncode(text);
 	console.log(content);
+	const original = $tw.utils.base64Decode(content);
+	// const original = $tw.utils.htmlDecode(text);
+	console.log(original);
+	// console.log(content);
 	var CbWSClient = require('$:/core/modules/utils/corebos.js').CbWSClient;
 	try {
 		var cbWSClient = new CbWSClient('http://localhost/corebos');
 		var user = await cbWSClient.doLogin('admin', 'nhIZoO5sZsg8y8Jn');
 		console.log(user);
-		console.log(method);
-		console.log(typeof text);
 		var valuemap = {
-			conversationtitle: 'TW',
-			conversationcontent: encodeURIComponent(content),
+			conversationtitle: 'RC',
+			conversationcontent: content,
 		}
-		console.log(valuemap);
-		console.log(JSON.stringify(valuemap));
+		// console.log(valuemap);
+		// var json = $tw.utils.jsonStringify(valuemap);
+		// console.log(json);
+		// var parsed = JSON.parse(json);
+		// console.log(parsed);
 		var conversation = await cbWSClient.doCreate('Conversation', valuemap);
 		console.log(conversation);
 	} catch (e) {
@@ -76,6 +97,7 @@ CustomSaver.prototype.info = {
 Static method that returns true if this saver is capable of working
 */
 exports.canSave = function(wiki) {
+	console.log(wiki);
 	// return !!(saver.save);
 	return true;
 };

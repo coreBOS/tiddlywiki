@@ -32,54 +32,26 @@ var CustomSaver = function(wiki) {
 };
 
 CustomSaver.prototype.save = async (text,method,callback) => {
-	// var add = require('$:/core/modules/utils/corebos.js').add;
-	// alert("Hello there");
-	// console.log(text);
-	// console.log(add(10, 10));
-	// var fetch = require('$:/core/modules/utils/corebos.js').fetch;
-	// fetch();
-	// var asyncfetch = require('$:/core/modules/utils/corebos.js').asyncfetch;
-	// await asyncfetch();
-	// var sub = text;
-	// console.log(String(sub));
-	// var content = text.replace("&quot;", '"');
-	// var element = document.createElement('a');
-    // element.setAttribute('href', 'data:text/html;charset=utf-8,' + text);
-    // element.setAttribute('download', 'tiddlywikidownload');
-
-    // element.style.display = 'none';
-    // document.body.appendChild(element);
-
-    // element.click();
-
-	// document.body.removeChild(element);
-	// const content = text;
 	console.log($tw);
 	const content = $tw.utils.base64Encode(text);
-	// const content = $tw.utils.htmlEncode(text);
 	console.log(content);
 	const original = $tw.utils.base64Decode(content);
-	// const original = $tw.utils.htmlDecode(text);
 	console.log(original);
-	// console.log(content);
 	var CbWSClient = require('$:/core/modules/utils/corebos.js').CbWSClient;
 	try {
 		var cbWSClient = new CbWSClient('http://localhost/corebos');
 		var user = await cbWSClient.doLogin('admin', 'nhIZoO5sZsg8y8Jn');
 		console.log(user);
 		var valuemap = {
-			conversationtitle: 'RC',
-			conversationcontent: content,
+			conversationtitle: 'TiddlyWiki (TW)',
+			conversationcontent: 'data:text/html;base64,' + content,
 		}
-		// console.log(valuemap);
-		// var json = $tw.utils.jsonStringify(valuemap);
-		// console.log(json);
-		// var parsed = JSON.parse(json);
-		// console.log(parsed);
 		var conversation = await cbWSClient.doCreate('Conversation', valuemap);
 		console.log(conversation);
+		callback(null, "Wiki saved to CoreBOS");
 	} catch (e) {
 		console.log(e.message);
+		callback("Wiki could not be saved to CoreBOS");
 	}
 	return true;
 };

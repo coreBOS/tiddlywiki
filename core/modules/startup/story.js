@@ -59,7 +59,7 @@ exports.startup = function() {
 		},false);
 		// Listen for the tm-browser-refresh message
 		$tw.rootWidget.addEventListener("tm-browser-refresh",function(event) {
-			window.location.reload(true);
+			window.location.reload();
 		});
 		// Listen for tm-open-external-window message
 		$tw.rootWidget.addEventListener("tm-open-external-window",function(event) {
